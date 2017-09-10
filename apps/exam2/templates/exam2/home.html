@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>home</title>
+    <style>
+    .quote_div{
+      width: 600px;
+      overflow: scroll;
+      overflow-x:hidden;
+    }
+      table, head{
+        width:70%;
+      }
+      .left,.right{
+        width: 400px;
+        border: 1px solid lightgray;
+        overflow: scroll;
+        overflow-x:hidden;
+      }
+      .left, .right{
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+
+        {%   block content  %}
+          {% include "exam2/header.html"  %}
+        {%  endblock  %}
+
+    <h2>Welcome, {{user.name}} !</h2>
+
+<h3>Quotable Quotes</h3>
+    {%for quote in quotes%}
+
+    <div class="left">
+        <!-- <div class="left_sub"> -->
+          <form class="addtolist" action='/addtolist/{{quote.id}}' method="post">
+              {%    csrf_token %}
+            <p>{{quote.message}}</p>
+            <p>Posted by: <a href="/quotedBy/{{quote.quoted_by.id}}">{{quote.quoted_by.name}}</a></p>
+            <input type="submit" name="add_list" value="Add To My List">
+          </form>
+
+        <!-- </div> -->
+    </div>
+    {% endfor %}
+
+<h3>Your Favorites</h3>
+{%for quote in mine%}
+    <div class="right">
+      <div class="right_sub">
+
+          <p>{{quote.message}}</p>
+          <p>Posted by: <a href="/quotedBy/{{quote.quoted_by.id}}">{{quote.quoted_by.name}}</a></p>
+          <a href="/remove/{{quote.id}}">remove from my list</a>
+
+        </div>
+    </div>
+{%endfor%}
+
+    <!-- <div class="quote_div"> -->
+      {% if messages %}
+        {% for message in messages %}
+          <h5 style="color:red;">{{ message }}</h5>
+        {% endfor %}
+      {% endif %}
+      <form class="quote_form" action="/addQuote" method="post">
+        {%  csrf_token %}
+        <h3>Contribute a Quote:</h3>
+        <label for="quoted_by">Quoted By:</label>
+        <input type="text" name="quoted_by">
+        <br><br>
+        Mesage
+        <br>
+        <textarea name="message" rows="5" cols="30"></textarea>
+        <input type="submit" name="submit" value="submit">
+      </form>
+    <!-- </div> -->
+  </body>
+</html>

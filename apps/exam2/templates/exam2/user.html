@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    {%   block content  %}
+      {% include "exam2/header.html"  %}
+    {%  endblock  %}
+    <h1>Posted By: {{user.name}}</h1>
+    <h5>Count: {{count}}</h5>
+    {% for quote in quotes %}
+      <p>{{quote.message}}</p>
+
+    {% endfor %}
+  </body>
+</html>
